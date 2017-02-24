@@ -1,0 +1,57 @@
+<section>
+  <ul class="nav nav-pills">
+    <li ng-class="{ active:panels.isSelected(1) }"> <a href ng-click="panels.selectTab(1)">Description</a> </li>
+    <li ng-class="{ active:panels.isSelected(2) }"> <a href ng-click="panels.selectTab(2)">Specifications</a> </li>
+    <li ng-class="{ active:panels.isSelected(3) }"> <a href ng-click="panels.selectTab(3)">Reviews</a> </li>
+  </ul>
+  <div class="panel" ng-show="panels.isSelected(1)">
+    <h4>Description</h4>
+    <blockquote>{{product.description}}</blockquote>
+  </div>
+  <div class="panel" ng-show="panels.isSelected(2)">
+    <h4>Specifications</h4>
+    <blockquote>none yet</blockquote>
+  </div>
+  <div class="panel" ng-show="panels.isSelected(3)">
+    <h4>Reviews</h4>
+    <div>
+      <blockquote ng-repeat="review in product.reviews">
+      <b>Stars: {{review.stars}}</b>
+      {{review.body}}<br/>
+      <cite>-{{review.author}}</cite>
+      </blockquote>
+    </div>
+
+    <form name="reviewForm" ng-controller="ReviewController as reviewCtrl" ng-submit="reviewForm.$valid && reviewCtrl.addReview(product)" novalidate>
+      <blockquote>
+        <b>Stars: {{reviewCtrl.review.stars}}</b>
+        {{reviewCtrl.review.body}}<br/>
+        <cite>-{{reviewCtrl.review.author}}</cite>
+      </blockquote>
+      <div class="col-sm-12">
+        <h5>Submit a Review</h5>
+      </div>
+      <div class="col-sm-6 input-group">
+        <select class="form-control" ng-model="reviewCtrl.review.stars" required>
+          <option value="">Rate the Product</option>
+          <option value="1">1 Star</option>
+          <option value="2">2 Stars</option>
+          <option value="3">3 Stars</option>
+          <option value="4">4 Stars</option>
+          <option value="5">5 Stars</option>
+        </select>
+      </div>
+      <div class="col-sm-6 input-group">
+        <textarea class="form-control" ng-model="reviewCtrl.review.body" required></textarea>
+      </div>
+      <div class="col-sm-6 input-group">
+        <input type="email" class="form-control" name="author"  ng-model="reviewCtrl.review.author" required />
+        <span ng-show="reviewForm.author.$error.email">Not a valid e-mail address</span>
+      </div>
+      <div class="col-sm-6 input-group">
+        <div> review form is {{reviewForm.$valid}}</div>
+        <input type="submit" value="Submit Review" class="btn btn-primary" />
+      </div>
+    </form>
+  </div>
+</section>
